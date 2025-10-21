@@ -1,12 +1,9 @@
-# import critical modules - random for board generation, copy for being able to restart, pygame for framework
 import copy
 import random
 import pygame
 
-# initialize pygame
 pygame.init()
 
-# initialize game variables
 WIDTH = 500
 HEIGHT = 550
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
@@ -28,7 +25,6 @@ win = False
 
 
 
-# select a number of tubes and pick random colors upon new game setup
 def generate_start():
     tubes_number = random.randint(10, 14)
     tubes_colors = []
@@ -48,7 +44,6 @@ def generate_start():
     return tubes_number, tubes_colors
 
 
-# draw all tubes and colors on screen, as well as indicating what tube was selected
 def draw_tubes(tubes_num, tube_cols):
     tube_boxes = []
     if tubes_num % 2 == 0:
@@ -86,8 +81,7 @@ def draw_tubes(tubes_num, tube_cols):
     return tube_boxes
 
 
-# determine the top color of the selected tube and destination tube,
-# as well as how long a chain of that color to move
+
 def calc_move(colors, selected_rect, destination):
     chain = True
     color_on_top = 100
@@ -116,7 +110,6 @@ def calc_move(colors, selected_rect, destination):
     return colors
 
 
-# check if every tube with colors is 4 long and all the same color. That's how we win
 def check_victory(colors):
     won = True
     for i in range(len(colors)):
@@ -131,7 +124,6 @@ def check_victory(colors):
     return won
 
 
-# main game loop
 run = True
 while run:
     screen.fill('black')
@@ -168,13 +160,13 @@ while run:
                         tube_colors = calc_move(tube_colors, select_rect, dest_rect)
                         selected = False
                         select_rect = 100
-    # draw 'victory' text when winning in middle, always show restart and new board text at top
+
     if win:
         victory_text = font.render('You Won! Press Enter for a new board!', True, 'white')
         screen.blit(victory_text, (30, 265))
     restart_text = font.render('Stuck? Space-Restart, Enter-New Board!', True, 'white')
     screen.blit(restart_text, (10, 10))
 
-    # display all drawn items on screen, exit pygame if run == False
     pygame.display.flip()
+
 pygame.quit()
